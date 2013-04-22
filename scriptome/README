@@ -1,0 +1,23 @@
+This tool is designed to read an SBML file downloaded from Reactome.org and
+parse the stoichiometry data.  It will provide a list of the species in the
+provided pathway and their starting quantities.  You can then run a simulation
+of what the quantities of each reagent will be after running all of the 
+reactions in that pathway.  Additionally, there is an option to write out the
+resulting quantities to a node attribute file suitable for import into 
+Cytoscape (http://cytoscape.org).  The attribute file is of the format:
+    Species Name = Quantity
+
+Environment variables:
+PATHWAY_FILE    The filesystem path to the SBML file we'll be parsing
+NODE_ATTR_FILE  The filesystem path where you'd like to save the Cytoscape 
+                    Node Attribute file
+DEFAULTS_FILE   An option file containing hardcoded starting values for 
+                    specific species of the format:
+
+                    species_#=0.0
+   
+                    Note that the species number in the DEFAULTS_FILE is not
+                    the same as the Species Name from the Attribute File.  
+                    Species number is a unique identifier.  Species name is not 
+                    necessarily unique.
+

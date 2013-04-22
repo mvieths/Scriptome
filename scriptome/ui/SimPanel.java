@@ -58,6 +58,10 @@ public class SimPanel extends JPanel implements ActionListener {
 		// Put some controls across the middle
 		JPanel controlsPanel = new JPanel(new FlowLayout());
 
+		JButton writeAttrButton = new JButton("Write Node Attributes File");
+		writeAttrButton.setActionCommand("Write Node Attributes File");
+		writeAttrButton.addActionListener(this);
+
 		JButton runSimButton = new JButton("Run Simulation");
 		runSimButton.setActionCommand("Run Simulation");
 		runSimButton.addActionListener(this);
@@ -68,6 +72,7 @@ public class SimPanel extends JPanel implements ActionListener {
 		resetButton.setActionCommand("Reset Simulation");
 		resetButton.addActionListener(this);
 
+		controlsPanel.add(writeAttrButton);
 		controlsPanel.add(runSimButton);
 		controlsPanel.add(numRuns);
 		controlsPanel.add(resetButton);
@@ -85,7 +90,9 @@ public class SimPanel extends JPanel implements ActionListener {
 		if (command == "Run Simulation") {
 			try {
 				int iterations = Integer.parseInt(numRuns.getText());
+				System.out.println("Starting sim");
 				pathway.runSimulation(iterations);
+				System.out.println("Sim over");
 
 				SimTableModel myTableModel = (SimTableModel) table.getModel();
 				myTableModel.refresh();
@@ -101,6 +108,8 @@ public class SimPanel extends JPanel implements ActionListener {
 			myTableModel.refresh();
 
 			table.repaint();
+		} else if (command == "Write Node Attributes File") {
+			pathway.writeNodeAttrFile();
 		}
 	}
 

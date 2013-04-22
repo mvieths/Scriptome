@@ -4,8 +4,11 @@
 package scriptome.data;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Vector;
 import java.util.regex.Pattern;
@@ -234,6 +237,27 @@ public class Pathway {
 	public void resetSimulation() {
 		for (Molecule m : allMolecules) {
 			m.resetQuantity();
+		}
+	}
+
+	public void writeNodeAttrFile() {
+		try {
+			String nodeAttrFile = System.getenv("NODE_ATTR_FILE");
+			if (nodeAttrFile.length() > 0) {
+				FileWriter fwriter = new FileWriter(nodeAttrFile, false);
+				BufferedWriter out = new BufferedWriter(fwriter);
+				out.write("Stoichiometry\n");
+				for (Molecule m : allMolecules) {
+					System.out.println(model.getSpecies(m.getName()).getName() + " = " + m.getQuantity());
+					out.write(model.getSpecies(m.getName()).getName() + " = " + m.getQuantity() + "\r\n");
+				}
+				out.close();
+			} else {
+				System.out.println("No attribute file defined");
+			}
+		} catch (IOException e) {
+			System.out.println("Error caught: " + e.getMessage());
+			e.printStackTrace();
 		}
 	}
 
